@@ -32,13 +32,23 @@
                 {% else %}
 
                       <a class="nav-link" href="{% url 'login' %}">Login</a>
-                      <a class="nav-link" href="#">Sign Up</a>
+                      <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
                 {% endif %}
             </span>
           </div>
         </div>
     </nav>
-
+    <!-- Creating messages that will serve all messages created in views-->
+    {% if messages %}
+      <ul class="alert">
+        {% for message in messages %}
+        <li class="{{message.tags}}">
+          {{message|safe}}
+        </li>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        {% endfor %}
+      </ul>
+    {% endif %}
     {% block content %}
 
 

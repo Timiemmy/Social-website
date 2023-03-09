@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, UserRegistrationForm
+from django.contrib import messages
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
 
@@ -10,13 +11,13 @@ from .models import Profile
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
-        if form.is_valid():
+        if form.is_valid(): # This validates the form, else it throws out error
             cd = form.cleaned_data
             user = authenticate(request,
                                 username=cd['username'],
-                                password=cd['password'])
+                                password=cd['password']) # This checks if the user data is correct
             if user is not None:
-                if user.is_active:
+                if user.is_active: # This checks if the user has account with us
                     login(request, user)
                     return HttpResponse('Authenticated successfully')
                 else:
@@ -44,9 +45,10 @@ def register(request):
             new_user = user_form.save(commit=False)
             # Set the chosen password
             new_user.set_password(
-                user_form.cleaned_data['password'])
+                user_form.cleaned_data['password'])  # This set password method handles password hashing before saving in db
             # Save the User object
             new_user.save()
+            messages.success(request, 'Account created successfully')
             # Create the user profile
             Profile.objects.create(user=new_user)
             return render(request,
@@ -57,3 +59,31 @@ def register(request):
     return render(request,
                   'account/register.html',
                   {'user_form': user_form})
+
+
+@login_required
+def edit(request):  # For editing profile
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user,
+                                 data=request.POST)  # This form store normal data while registering.
+        profile_form = ProfileEditForm(
+            instance=request.user.profile,
+            data=request.POST,
+            files=request.FILES)  # This form stores additional personal information of the user
+        # The is_valid is called here to validate the user.
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            # The save() method save both data if it is valid.
+            profile_form.save()
+            messages.success(request, 'Profile updated '
+                                      'successfully')
+        else:
+            messages.error(request, 'Error updating your profile')
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(
+            instance=request.user.profile)
+    return render(request,
+                  'account/edit.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form})

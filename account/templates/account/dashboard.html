@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 {% block content %}
-<div class="container-fluid">
-<h2>Welcome</h2>
+<div class="container-sm">
+<h2>Welcome {{request.user.first_name}}</h2>
+<p> you can edit your profile <a href="{% url 'edit'%}">here</a> if you have any changes</p>
 </div>
 {%endblock%}

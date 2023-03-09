@@ -6,7 +6,7 @@
 <form method="post" class="container-sm mt-4">
     <div class="mb-3">
       {% csrf_token %}
-      {{form|crispy}}
+      {{user_form|crispy}}
     </div>
     <button type="submit" class="btn btn-primary ">Submit</button>
     <p>Already have an account? Login <a href="{% url 'login' %}">here</a></p>
