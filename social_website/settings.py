@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-#fd)w^jx2-xb7-ai0pjsuulv+f_9lyt2xvu31=-m*^_80iku7d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['socialweb.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
+    "social_django",  # This is for social auth
+    "django_extensions",  # This is for development ssl certificate
 
     "account",
 
@@ -144,4 +146,17 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     # This is the Emailauthbackend we define in authentication.py
     "account.authentication.EmailAuthBackend",
-]  # Now through this, we can login with either username or email.
+    # Now through this, we can login with either username or email.
+    'social_core.backends.facebook.FacebookOAuth2',
+
+
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = ""
+SOCIAL_AUTH_FACEBOOK_SECRET = ""
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
+
+
+SOCIAL_AUTH_TWITTER_KEY = ""
+SOCIAL_AUTH_TWITTER_SECRET = ""

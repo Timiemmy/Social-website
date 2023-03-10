@@ -16,7 +16,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email']
+        fields = ['username', 'first_name', 'email']
 
     # This compares pass1 to pass2 and raise validation error if it doesnt exist.
     def clean_password2(self):

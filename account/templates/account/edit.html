@@ -2,8 +2,8 @@
 {% block title %} Edit Profile {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h2 class="container-sm mt-5 pt-3">Edit your account</h2>
-<form method="post" class="container-sm mt-4" enctype="multipart/form-data">
+<h2 class="container-sm mt-4 pt-3">Edit your account</h2>
+<form method="post" class="container-sm mt-3 mb-5" enctype="multipart/form-data">
     <div class="mb-3">
       {% csrf_token %}
       {{user_form|crispy}}
