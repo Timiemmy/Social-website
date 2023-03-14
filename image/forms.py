@@ -43,4 +43,4 @@ class ImageCreateForm(forms.ModelForm):
                          save=False)  # This will prevent it from saving to db.
         if commit:  # The image will be saved to db if commit parameter is true.
             image.save()
-        return
+        return image

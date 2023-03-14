@@ -2,17 +2,14 @@
 {% block title %} Sign up {% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h2 class="container-sm pt-2 px-5">Sign up</h2>
-<form method="post" class="container-sm mt-4 mb-5 px-5">
-    <div class="mb-3">
-      {% csrf_token %}
-      {{user_form|crispy}}
-    </div>
-    <button type="submit" class="btn btn-primary ">Submit</button>
-    <p>Already have an account? Login <a href="{% url 'login' %}">here</a></p>
-    <button type="button" class="btn btn-outline-primary mt-3 mb-5">
-      <a href="{% url 'social:begin' 'facebook' %}">Sign up with Facebook</a></button>
-    <button type="button" class="btn btn-outline-secondary bg-dark mt-3 mb-5"><a href="{% url 'social:begin' 'twitter' %}"> Sign up with Twitter </a></button>
-</form>
 
+  <h1>Create an account</h1>
+  <p>Please, sign up using the following form:</p>
+  <form method="post">
+    {{ user_form|crispy }}
+    {% csrf_token %}
+    <p><input type="submit" value="Create my account"></p>
+    <p>Already have an account? Login <a href="{% url 'login' %}">here</a></p>
+  </form>
+  
 {%endblock%}

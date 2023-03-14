@@ -24,12 +24,7 @@ SECRET_KEY = "django-insecure-#fd)w^jx2-xb7-ai0pjsuulv+f_9lyt2xvu31=-m*^_80iku7d
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-'''
-if DEBUG:
-    import mimetypes
-    mimetypes.add_type('application/javascript', 'js', True)
-    mimetypes.add_type('text/css', '.css', True)
-'''
+
 ALLOWED_HOSTS = ['socialweb.com', 'localhost', '127.0.0.1']
 
 
@@ -40,6 +35,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "social_django",  # This is for social auth
     "django_extensions",  # This is for development ssl certificate
+    "easy_thumbnails",
 
     "account",
     "image",

@@ -5,8 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
-from django.core.paginator import Paginator, EmptyPage, \
-    PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ImageCreateForm
 from .models import Image
 
@@ -38,7 +37,7 @@ def image_create(request):
 def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
     return render(request,
-                  'images/image/detail.html',
+                  'image/detail.html',
                   {'section': 'images',
                    'image': image})
 
@@ -81,10 +80,10 @@ def image_list(request):
         images = paginator.page(paginator.num_pages)
     if images_only:
         return render(request,
-                      'images/image/list_images.html',
+                      'image/list_images.html',
                       {'section': 'images',
                        'images': images})
     return render(request,
-                  'images/image/list.html',
+                  'image/list.html',
                   {'section': 'images',
                    'images': images})
