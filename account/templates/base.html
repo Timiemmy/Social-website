@@ -48,7 +48,7 @@
   <script>
     const csrftoken = Cookies.get('csrftoken');
     document.addEventListener('DOMContentLoaded', (event) => {
-      // DOM loaded
+      /*DOM loaded. The DOMContentLoaded will be executed only when the content is completelt loaded.*/
       {% block domready %}
 
       {% endblock %}

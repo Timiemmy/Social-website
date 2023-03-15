@@ -43,9 +43,10 @@ def image_detail(request, id, slug):
 
 
 @login_required
-@require_POST
+@require_POST  # This decorator will allow only the http post method
 def image_like(request):
-    image_id = request.POST.get('id')
+    image_id = request.POST.get('id')  # Thd id of the image to like
+    # The action that the user wants to perform
     action = request.POST.get('action')
     if image_id and action:
         try:
