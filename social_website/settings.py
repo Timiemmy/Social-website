@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     "account",
     "image",
+    "actions",
 
     "django.contrib.admin",
     "django.contrib.auth",

@@ -6,7 +6,9 @@
 {% block content %}
   <h1>{{ user.get_full_name }}</h1>
   <div class="profile-info">
+    {% if user.profile.photo %}
     <img src="{% thumbnail user.profile.photo 180x180 %}" class="user-detail">
+    {% endif %}
   </div>
   {% with total_followers=user.followers.count %}
     <span class="count">
@@ -25,7 +27,7 @@
     </div>
   {% endwith %}
 {% endblock %}
-<!--
+
 {% block domready %}
   const url = '{% url "user_follow" %}';
   var options = {
@@ -66,4 +68,3 @@
     })
   });
 {% endblock %}
--->
