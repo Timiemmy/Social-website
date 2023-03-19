@@ -18,10 +18,13 @@ class Image(models.Model):
     users_like = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='images_liked',
                                         blank=True)  # This field will store users who like an image.
+    # This field will store total count of users who likes a image.
+    total_likes = models.PositiveIntegerField(default=0)
 
     class Meta:
         indexes = [
             models.Index(fields=['-created']),
+            models.Index(fields=['-total_likes'])
         ]
         ordering = ['-created']
 
