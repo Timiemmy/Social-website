@@ -1,10 +1,10 @@
 {% extends 'base.html'%}
 {% block title %} {{image.title}} {% endblock %}
-{% load thumbnails %}
+{% load thumbnail %}
 {% block content %}
 <h1 class="container-sm mt-3 pt-2 px-5">{{image.title}}</h1>
 <a href="{{image.image.url}}">
-    <img src="{% thumbnail image.image 300x0s%}" class="image-detail" >
+    <img src="{% thumbnail image.image 300x0 %}" class="image-detail" >
 </a>
     {% with total_likes=image.users_like.count %}
     <div class="image-info">

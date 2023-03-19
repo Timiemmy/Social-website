@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "social_django",  # This is for social auth
     "django_extensions",  # This is for development ssl certificate
     "easy_thumbnails",
+    "filer",
+    "mptt",
 
     "account",
     "image",
@@ -184,3 +186,11 @@ SOCIAL_AUTH_PIPELINE = (
 ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
 }
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    # 'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
