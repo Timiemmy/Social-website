@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis
+    command: docker run -it --rm --name redis -p 6379:6379 redis
+    ports:
+      - "6379:6379"
+
+  app:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - 8000:8000
+    image: social:django
+    container_name: bookmark
+    command: python manage.py runserver_plus --cert-file cert-crt 0.0.0.0:8000
+    links:
+      - redis
+    depends_on:
+      - redis
