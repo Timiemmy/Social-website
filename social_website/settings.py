@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "easy_thumbnails",
     "filer",
     "mptt",
+    "debug_toolbar",
 
     "account",
     "image",
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -194,3 +196,12 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters',
 )
+
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0

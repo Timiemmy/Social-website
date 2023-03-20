@@ -6,10 +6,17 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import redis
+from django.conf import settings
 from .forms import ImageCreateForm
 from .models import Image
 
 from actions.utils import create_action
+
+# With this you establish the Redis connection in order to use it in your views.
+r = redis.Redis(host=settings.REDIS_HOST,
+                port=settings.REDIS_PORT,
+                db=settings.REDIS_DB)
 
 
 @login_required
@@ -40,10 +47,15 @@ def image_create(request):
 
 def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
+    # increment total image views by 1 for every vuser view
+    total_views = r.incr(f'image:{image.id}:views')
+    # This will allow you to keep track of all image views globally and have a sorted set ordered by the total number of views.
+    r.zincrby('image_ranking', 1, image.id)  # increment image ranking by 1
     return render(request,
                   'image/detail.html',
                   {'section': 'images',
-                   'image': image})
+                   'image': image,
+                   'total_views': total_views})
 
 
 @login_required
@@ -92,3 +104,14 @@ def image_list(request):
                   'image/list.html',
                   {'section': 'images',
                    'images': images})
+
+
+@login_required
+def image_ranking(request):
+    # get image ranking dictionary
+    image_ranking = r.zrange('image_ranking', 0, -1, desc=True)[:10]
+    image_ranking_ids = [int(id) for id in image_ranking]
+    # get most viewed images
+    most_viewed = list(Image.objects.filter(id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+    return render(request, 'image/ranking.html', {'section': 'images', 'most_viewed': most_viewed})
